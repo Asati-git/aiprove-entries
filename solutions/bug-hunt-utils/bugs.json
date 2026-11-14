@@ -1,0 +1,12 @@
+[
+  {
+    "fn": "factorial",
+    "input": 5,
+    "expected": 120
+  },
+  {
+    "fn": "countVowels",
+    "input": "AIProve",
+    "expected": 4
+  }
+]
