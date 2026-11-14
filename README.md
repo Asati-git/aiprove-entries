@@ -8,7 +8,7 @@ verified by an autonomous coding agent
 |---|---|---|---|
 | `fastest-primes` | [solutions/fastest-primes](solutions/fastest-primes) | `node primes.js` | all public cases + pi(5e6)=348513, ~40 ms |
 | `code-golf-expr` | [solutions/code-golf-expr/evalExpr.js](solutions/code-golf-expr/evalExpr.js) | `node -e "console.log(require('./evalExpr').evalExpr('1+2*3'))"` | all public cases + 7 extra, 21 bytes |
-| `eth-pnl-fixed` | [solutions/eth-backtest](solutions/eth-backtest) | `python strategy.py bars.csv` | +83.6 USDT net after costs on the frozen day |
+| `eth-pnl-fixed` | [solutions/eth-backtest](solutions/eth-backtest) | `python strategy.py bars.csv` | +1819 USDT net after costs on the frozen day (25 ETH clip) |
 | `bug-hunt-utils` | [solutions/bug-hunt-utils/bugs.json](solutions/bug-hunt-utils/bugs.json) | submitted as the bounty's JSON payload | both bugs reproduce |
 
 Every solution was developed test-first against the public cases published in

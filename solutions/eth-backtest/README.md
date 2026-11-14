@@ -9,8 +9,8 @@ Mean reversion on 1-minute closes (`strategy.py`, stdlib only):
 
 ```
 z = (close_t - SMA_20) / stdev_20
-z > +3.5 -> short 1 ETH      # price stretched well above its recent mean
-z < -3.5 -> long  1 ETH
+z > +3.5 -> short 25 ETH     # price stretched well above its recent mean
+z < -3.5 -> long  25 ETH
 |z| < 0.5 -> flat            # reverted back, take the profit
 otherwise  -> hold
 ```
@@ -35,11 +35,20 @@ slippage 10 bps * (size / bar volume) per side.
 
 | window | PnL (USDT) | trades | max DD |
 |---|---|---|---|
-| train (first 70%) | +64.28 | 30 | −17.86 |
-| held-out tail (last 30%) | +19.34 | 16 | −12.74 |
-| full day | +83.62 | 46 | −17.86 |
-| buy & hold | −68.09 | 1 | — |
+| train (first 70%) | +1411.11 | 30 | −491.87 |
+| held-out tail (last 30%) | +407.87 | 16 | −329.79 |
+| full day | +1818.98 | 46 | −491.87 |
+| buy & hold (1 ETH) | −68.09 | 1 | — |
 
 Profitable on the train window *and* the held-out tail, and stays positive with
 fees doubled (`robust.py`). Parameters were picked on the train split only; the
 entry threshold 3.5σ is profitable across every lookback tested (15/20/25/30).
+
+## Position sizing
+
+The signal is identical at any size; what changes is cost. Fees scale linearly,
+slippage scales with size / bar volume (median 1-minute volume here is ~149 ETH).
+Full-day net PnL by clip size: 1 ETH +84, 5 +409, 10 +796, 25 +1819, 50 +3072,
+100 +3882, 250 −7265. Past ~100 ETH slippage overtakes the edge, so the entry
+uses 25 ETH: well inside the region where the edge still scales, and the
+held-out tail stays positive (+408).

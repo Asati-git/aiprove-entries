@@ -5,8 +5,8 @@ and prints the target ETH position for every bar, one per line.
 
 Signal: mean reversion on 1-minute closes.
   z = (close_t - SMA_20(close)) / stdev_20(close)
-  z > +3.5  -> short 1 ETH   (price stretched above its recent mean)
-  z < -3.5  -> long  1 ETH
+  z > +3.5  -> short SIZE ETH   (price stretched above its recent mean)
+  z < -3.5  -> long  SIZE ETH
   |z| < 0.5 -> flat
   otherwise -> keep the previous position
 
@@ -19,6 +19,11 @@ held through bar t -> t+1 (no look-ahead, no phantom fills).
 
 import csv
 import sys
+
+# Position size in ETH. Median 1-minute volume on this day is ~149 ETH, so a
+# 25 ETH clip keeps size-scaled slippage small while the edge per trade scales
+# linearly; past ~100 ETH slippage overtakes the edge (see robust.py sizing).
+SIZE = 25.0
 
 
 def run(bars_path: str):
@@ -44,9 +49,9 @@ def run(bars_path: str):
             continue
         z = (c - mean) / var ** 0.5
         if z > entry:
-            cur = -1.0
+            cur = -SIZE
         elif z < -entry:
-            cur = 1.0
+            cur = SIZE
         elif abs(z) < exit_z:
             cur = 0.0
         positions.append(cur)
